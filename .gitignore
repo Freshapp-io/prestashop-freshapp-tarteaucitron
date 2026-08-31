@@ -1,0 +1,23 @@
+# — Artefacts système / éditeur —
+.DS_Store
+Thumbs.db
+*:Zone.Identifier
+*.swp
+*~
+.idea/
+.vscode/
+
+# — Dépendances —
+node_modules/
+
+# — Sauvegardes et archives —
+*.bak
+*.orig
+*.rej
+*.zip
+
+# — Loader téléchargé depuis le CDN tarteaucitron.io —
+/views/js/tac-loader.cache.js
+
+# — Services JS saisis en back-office, réécrits à chaque enregistrement —
+/views/js/custom-services.cache.js
