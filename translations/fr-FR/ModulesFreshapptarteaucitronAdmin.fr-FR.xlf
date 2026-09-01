@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="Modules.Freshapptarteaucitron.Admin.xlf" source-language="en-US" target-language="fr-FR" datatype="plaintext">
+    <body>
+      <trans-unit id="17d66f1bab1a43720d5218b577342cb2">
+        <source>API ID</source>
+        <target>Identifiant d’API</target>
+      </trans-unit>
+      <trans-unit id="ce7dd86c10f59b27ba99cfc836e19df3">
+        <source>Add services (JS Code)</source>
+        <target>Ajouter des services (code JS)</target>
+      </trans-unit>
+      <trans-unit id="210315ab7fc3de15a85c0cfde585233e">
+        <source>FreshApp Tarteaucitron</source>
+        <target>FreshApp Tarteaucitron</target>
+      </trans-unit>
+      <trans-unit id="c86deed539c9e7a090d4d03d19c07eda">
+        <source>GDPR friendly cookie manager</source>
+        <target>Gestionnaire de consentement cookies conforme au RGPD</target>
+      </trans-unit>
+      <trans-unit id="bf82d82b3ed9a9df93420c2608129189">
+        <source>If you use free installation, read "Step 3: Add services" on https://tarteaucitron.io/en/free-installation-open-source/</source>
+        <target>Si vous utilisez l’installation gratuite, lisez « Step 3: Add services » sur https://tarteaucitron.io/en/free-installation-open-source/</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

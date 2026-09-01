@@ -1,0 +1,26 @@
+<?php
+
+global $_MODULE;
+$_MODULE = array();
+
+$_MODULE['<{freshapptarteaucitron}prestashop>configure_52ddac8efdcb41710e8b91d54699b22c'] = 'Add Services (Js Code) only if you are not on "automatic mode". More info on: ';
+$_MODULE['<{freshapptarteaucitron}prestashop>configure_d12b6608b037da9928855d5672ccd4f8'] = 'First you have to create a free account on ';
+$_MODULE['<{freshapptarteaucitron}prestashop>configure_01c22051f3e4680126522397760aff2e'] = 'Free GDPR friendly cookie manager based on Tarte Au Citron';
+$_MODULE['<{freshapptarteaucitron}prestashop>configure_7364972cdc13a7c7b736eae79c542d80'] = 'Then, get you API ID on ';
+$_MODULE['<{freshapptarteaucitron}prestashop>configure_728375385eb24dd5d9dfb2eb500959e6'] = 'developped is by Amauri Champeaux';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_1b44d415cba2b75fe6a817389b4a942a'] = 'Enable local caching of load.js';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_c1f480d9d81b4787593ef89d02216786'] = 'Enabled';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_b9bf86fbfd6024420df9e3b97dc00dbc'] = 'Local cache';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_2615180579c01f7ebc259da67489c804'] = 'Domain(s)';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_d5730955ffdeac0686506e7477fea648'] = 'Cache lifetime';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_6936b619b2c887b2f45d6841af37e096'] = 'Disabled';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_aed88202e2432ee2a613f9120ef7486b'] = 'Save';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_cbf5d231135412fb14429e086c09a722'] = 'General';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_992a2173baa7fefcac5aecbdc846d41a'] = 'Leave empty to use the current domain automatically. Multi-domain format: www.site.fr__https://recette.site.fr__https://staging.site.fr';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_b8a113e18ea9761de38d7402eddf7611'] = 'Number of days before the file is downloaded again from the CDN. Minimum 1.';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_e7785de91330713fc2d12404bb6bd556'] = 'Settings';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_f6a3d41a0905ad7708277a4cb25c3bb8'] = 'Settings saved.';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_b86b13f4ad1d9ef85134e731c2e68df2'] = 'Downloads load.js locally and serves it alongside the site assets (minified). Automatic CDN fallback if the download fails.';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_5f1fe455db6e9cab75f31be47d4a301f'] = 'days';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_d172ca39b86ec7723d325540ee4ef2cb'] = 'load.js downloaded again successfully.';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_251f162679fa1d09d4e9ad0c84b54a74'] = 'Failed to download load.js.';
