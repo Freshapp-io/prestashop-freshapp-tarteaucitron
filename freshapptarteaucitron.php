@@ -114,11 +114,12 @@ class Freshapptarteaucitron extends Module
             $output .= $this->displayConfirmation($this->l('Paramètres enregistrés.'));
         }
 
+        $output .= $this->renderBasculeMenu();
+
         $this->context->smarty->assign('module_dir', $this->_path);
         $output .= $this->context->smarty->fetch($this->local_path . 'views/templates/admin/configure.tpl');
         $output .= $this->renderCacheStatus();
         $output .= $this->renderForm();
-        $output .= $this->renderBasculeMenu();
 
         return $output;
     }
