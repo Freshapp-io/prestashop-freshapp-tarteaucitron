@@ -15,6 +15,24 @@ if (!defined('_PS_VERSION_')) {
 
 class Freshapptarteaucitron extends Module
 {
+    /**
+     * Entrée de menu back-office.
+     *
+     * Visible par défaut. Elle pointe vers le même écran que « Configurer »
+     * (le contrôleur ne fait que rappeler getContent), et reste débrayable via
+     * la bascule en bas de cet écran.
+     */
+    public $tabs = [
+        [
+            'class_name' => 'AdminFreshapptarteaucitron',
+            'name' => 'Tarteaucitron',
+            'parent_class_name' => 'AdminParentPreferences',
+            'visible' => true,
+            'wording' => 'Tarteaucitron',
+            'wording_domain' => 'Modules.Freshapptarteaucitron.Admin',
+        ],
+    ];
+
     public function __construct()
     {
         $this->name = 'freshapptarteaucitron';
@@ -71,6 +89,15 @@ class Freshapptarteaucitron extends Module
     {
         $output = '';
 
+        if (Tools::isSubmit('submitTacBoMenu')) {
+            $idTab = (int) Tab::getIdFromClassName('AdminFreshapptarteaucitron');
+            if ($idTab) {
+                $onglet = new Tab($idTab);
+                $onglet->active = Tools::getValue('tac_bo_menu') ? 1 : 0;
+                $onglet->save();
+            }
+        }
+
         if (Tools::isSubmit('uwtac_force_reload')) {
             if ($this->downloadTacLoader()) {
                 $output .= $this->displayConfirmation($this->l('load.js re-téléchargé avec succès.'));
@@ -91,8 +118,35 @@ class Freshapptarteaucitron extends Module
         $output .= $this->context->smarty->fetch($this->local_path . 'views/templates/admin/configure.tpl');
         $output .= $this->renderCacheStatus();
         $output .= $this->renderForm();
+        $output .= $this->renderBasculeMenu();
 
         return $output;
+    }
+
+    /**
+     * Bascule d'affichage de l'entrée de menu back-office.
+     *
+     * L'onglet reste joignable par « Configurer » quel que soit son état : la
+     * bascule ne fait que l'ajouter ou le retirer de l'arbre de navigation.
+     */
+    private function renderBasculeMenu(): string
+    {
+        $idTab = (int) Tab::getIdFromClassName('AdminFreshapptarteaucitron');
+        $actif = $idTab && (new Tab($idTab))->active;
+
+        return '<div class="panel">'
+            . '<form method="post" style="display:flex;align-items:center;justify-content:flex-end;gap:12px;margin:0">'
+            . '<span>' . $this->l('Afficher dans le menu du back-office') . '</span>'
+            . '<input type="hidden" name="submitTacBoMenu" value="1">'
+            . '<span class="switch prestashop-switch fixed-width-lg">'
+            . '<input type="radio" name="tac_bo_menu" id="tac_bo_menu_on" value="1"'
+            . ($actif ? ' checked="checked"' : '') . ' onchange="this.form.submit()">'
+            . '<label for="tac_bo_menu_on">' . $this->l('Oui') . '</label>'
+            . '<input type="radio" name="tac_bo_menu" id="tac_bo_menu_off" value="0"'
+            . (!$actif ? ' checked="checked"' : '') . ' onchange="this.form.submit()">'
+            . '<label for="tac_bo_menu_off">' . $this->l('Non') . '</label>'
+            . '<a class="slide-button btn"></a></span>'
+            . '</form></div>';
     }
 
     protected function renderForm(): string
