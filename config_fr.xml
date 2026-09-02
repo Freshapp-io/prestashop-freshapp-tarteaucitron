@@ -3,7 +3,7 @@
     <name>freshapptarteaucitron</name>
     <displayName><![CDATA[FreshApp Tarteaucitron]]></displayName>
     <version><![CDATA[1.4.0]]></version>
-    <description><![CDATA[GDPR friendly cookie manager]]></description>
+    <description><![CDATA[Gestionnaire de consentement cookies conforme au RGPD]]></description>
     <author><![CDATA[FreshApp.io]]></author>
     <tab><![CDATA[front_office_features]]></tab>
     <is_configurable>1</is_configurable>
