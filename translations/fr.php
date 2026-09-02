@@ -24,3 +24,6 @@ $_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_b86b13f4ad1d9
 $_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_5f1fe455db6e9cab75f31be47d4a301f'] = 'jours';
 $_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_d172ca39b86ec7723d325540ee4ef2cb'] = 'load.js re-téléchargé avec succès.';
 $_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_251f162679fa1d09d4e9ad0c84b54a74'] = 'Échec du téléchargement de load.js.';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_c0d99452df5066785ef125441762f964'] = 'Afficher dans le menu du back-office';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_24ace383b70d09954259c15cfeb9b2fd'] = 'Oui';
+$_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_6679e65c932b2c5ad98080ee21a4f0d4'] = 'Non';
