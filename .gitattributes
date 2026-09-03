@@ -5,3 +5,4 @@
 /phpunit.xml.dist export-ignore
 /.phpunit.cache export-ignore
 .gitkeep        export-ignore
+/config_fr.xml   export-ignore

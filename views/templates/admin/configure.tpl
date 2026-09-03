@@ -1,4 +1,10 @@
 {*
+ * FreshApp Tarteaucitron
+ * @author FreshApp.io
+ * @copyright 2026 FreshApp.io
+ * @license Proprietary - see LICENSE file
+ *}
+{*
 * 2007-2024 PrestaShop
 *
 * NOTICE OF LICENSE

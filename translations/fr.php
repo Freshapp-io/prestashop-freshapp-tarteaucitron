@@ -1,7 +1,17 @@
 <?php
+/**
+ * FreshApp Tarteaucitron.
+ *
+ * @author    FreshApp.io
+ * @copyright 2026 FreshApp.io
+ * @license   Proprietary - see LICENSE file
+ */
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 global $_MODULE;
-$_MODULE = array();
+$_MODULE = [];
 
 $_MODULE['<{freshapptarteaucitron}prestashop>configure_52ddac8efdcb41710e8b91d54699b22c'] = 'N’ajoutez des services (code JS) que si vous n’êtes pas en « mode automatique ». Plus d’informations sur : ';
 $_MODULE['<{freshapptarteaucitron}prestashop>configure_d12b6608b037da9928855d5672ccd4f8'] = 'Commencez par créer un compte gratuit sur ';

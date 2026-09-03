@@ -1,0 +1,4 @@
+# Empêche le listing des fichiers du module.
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>

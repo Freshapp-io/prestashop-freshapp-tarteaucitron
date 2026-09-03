@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * FreshApp Tarteaucitron.
+ *
+ * @author    FreshApp.io
+ * @copyright 2026 FreshApp.io
+ * @license   Proprietary - see LICENSE file
+ */
 if (!defined('_PS_VERSION_')) {
     exit;
 }

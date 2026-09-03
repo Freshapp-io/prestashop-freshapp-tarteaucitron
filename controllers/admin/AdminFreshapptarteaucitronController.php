@@ -1,6 +1,6 @@
 <?php
 /**
- * FreshApp Tarteaucitron
+ * FreshApp Tarteaucitron.
  *
  * @author    FreshApp.io
  * @copyright 2026 FreshApp.io

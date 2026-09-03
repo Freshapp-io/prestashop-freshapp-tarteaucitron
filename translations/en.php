@@ -1,7 +1,17 @@
 <?php
+/**
+ * FreshApp Tarteaucitron.
+ *
+ * @author    FreshApp.io
+ * @copyright 2026 FreshApp.io
+ * @license   Proprietary - see LICENSE file
+ */
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 global $_MODULE;
-$_MODULE = array();
+$_MODULE = [];
 
 $_MODULE['<{freshapptarteaucitron}prestashop>configure_52ddac8efdcb41710e8b91d54699b22c'] = 'Add Services (Js Code) only if you are not on "automatic mode". More info on: ';
 $_MODULE['<{freshapptarteaucitron}prestashop>configure_d12b6608b037da9928855d5672ccd4f8'] = 'First you have to create a free account on ';
