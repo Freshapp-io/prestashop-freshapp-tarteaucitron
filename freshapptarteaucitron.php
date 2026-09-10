@@ -46,7 +46,7 @@ class Freshapptarteaucitron extends Module
 
         $this->displayName = $this->trans('FreshApp Tarteaucitron', [], 'Modules.Freshapptarteaucitron.Admin');
         $this->description = $this->trans('GDPR friendly cookie manager', [], 'Modules.Freshapptarteaucitron.Admin');
-        $this->ps_versions_compliancy = ['min' => '9.0.0', 'max' => _PS_VERSION_];
+        $this->ps_versions_compliancy = ['min' => '9.0.0', 'max' => '9.99.99'];
     }
 
     public function install(): bool
@@ -133,21 +133,15 @@ class Freshapptarteaucitron extends Module
     private function renderBasculeMenu(): string
     {
         $idTab = (int) Db::getInstance()->getValue('SELECT `id_tab` FROM `' . _DB_PREFIX_ . 'tab` WHERE `class_name` = "AdminFreshapptarteaucitron"');
-        $actif = $idTab && (new Tab($idTab))->active;
 
-        return '<div class="panel">'
-            . '<form method="post" style="display:flex;align-items:center;justify-content:flex-end;gap:12px;margin:0">'
-            . '<span>' . $this->l('Afficher dans le menu du back-office') . '</span>'
-            . '<input type="hidden" name="submitTacBoMenu" value="1">'
-            . '<span class="switch prestashop-switch fixed-width-lg">'
-            . '<input type="radio" name="tac_bo_menu" id="tac_bo_menu_on" value="1"'
-            . ($actif ? ' checked="checked"' : '') . ' onchange="this.form.submit()">'
-            . '<label for="tac_bo_menu_on">' . $this->l('Oui') . '</label>'
-            . '<input type="radio" name="tac_bo_menu" id="tac_bo_menu_off" value="0"'
-            . (!$actif ? ' checked="checked"' : '') . ' onchange="this.form.submit()">'
-            . '<label for="tac_bo_menu_off">' . $this->l('Non') . '</label>'
-            . '<a class="slide-button btn"></a></span>'
-            . '</form></div>';
+        $this->context->smarty->assign([
+            'fa_tac_menu_actif' => $idTab && (new Tab($idTab))->active,
+            'fa_tac_label_menu' => $this->l('Afficher dans le menu du back-office'),
+            'fa_tac_oui' => $this->l('Oui'),
+            'fa_tac_non' => $this->l('Non'),
+        ]);
+
+        return $this->display(__FILE__, 'views/templates/admin/bascule-menu.tpl');
     }
 
     protected function renderForm(): string
