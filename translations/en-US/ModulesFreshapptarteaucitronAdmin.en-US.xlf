@@ -18,9 +18,29 @@
         <source>GDPR friendly cookie manager</source>
         <target>GDPR friendly cookie manager</target>
       </trans-unit>
-      <trans-unit id="bf82d82b3ed9a9df93420c2608129189">
-        <source>If you use free installation, read "Step 3: Add services" on https://tarteaucitron.io/en/free-installation-open-source/</source>
-        <target>If you use free installation, read "Step 3: Add services" on https://tarteaucitron.io/en/free-installation-open-source/</target>
+      <trans-unit id="fb0108aa579189ca80a08498d83331bd">
+        <source>Only needed if you are not in automatic mode. Find the code of each service here:</source>
+        <target>Only needed if you are not in automatic mode. Find the code of each service here:</target>
+      </trans-unit>
+      <trans-unit id="b993d7e89a5a6a735d89af5eea39be68">
+        <source>Example, for YouTube add:</source>
+        <target>Example, for YouTube add:</target>
+      </trans-unit>
+      <trans-unit id="0076ecb27809975a9a20cc2fb1021938">
+        <source>Paste the installation tag given in your tarteaucitron.io account: the identifier (UUID) and the domain are extracted automatically when you save.</source>
+        <target>Paste the installation tag given in your tarteaucitron.io account: the identifier (UUID) and the domain are extracted automatically when you save.</target>
+      </trans-unit>
+      <trans-unit id="4d000309e71bb10dba01e0861c4b3c96">
+        <source>The tag looks like this:</source>
+        <target>The tag looks like this:</target>
+      </trans-unit>
+      <trans-unit id="68e9264028d4899dfffd2e11a0886bea">
+        <source>Value of the uuid= parameter of the installation tag (the string of letters and digits after uuid=). No need to type it if you paste the tag in the panel above.</source>
+        <target>Value of the uuid= parameter of the installation tag (the string of letters and digits after uuid=). No need to type it if you paste the tag in the panel above.</target>
+      </trans-unit>
+      <trans-unit id="f0f3caa1a70ab8f1658b0cd64f967764">
+        <source>Paste a new installation tag</source>
+        <target>Paste a new installation tag</target>
       </trans-unit>
     </body>
   </file>

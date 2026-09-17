@@ -37,7 +37,7 @@ class Freshapptarteaucitron extends Module
     {
         $this->name = 'freshapptarteaucitron';
         $this->tab = 'front_office_features';
-        $this->version = '1.4.0';
+        $this->version = '1.5.0';
         $this->author = 'FreshApp.io';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -46,7 +46,7 @@ class Freshapptarteaucitron extends Module
 
         $this->displayName = $this->trans('FreshApp Tarteaucitron', [], 'Modules.Freshapptarteaucitron.Admin');
         $this->description = $this->trans('GDPR friendly cookie manager', [], 'Modules.Freshapptarteaucitron.Admin');
-        $this->ps_versions_compliancy = ['min' => '9.0.0', 'max' => '9.99.99'];
+        $this->ps_versions_compliancy = ['min' => '1.7.8.0', 'max' => '9.99.99'];
     }
 
     public function install(): bool
@@ -109,17 +109,37 @@ class Freshapptarteaucitron extends Module
             }
         }
 
-        if (Tools::isSubmit('uwtac_submit')) {
-            $this->postProcess();
+        if (Tools::isSubmit('uwtac_cache_submit')) {
+            Configuration::updateValue('FA_TAC_LOCAL_ENABLED', (int) Tools::getValue('FA_TAC_LOCAL_ENABLED'));
+            Configuration::updateValue('FA_TAC_LOCAL_TTL', max(1, (int) Tools::getValue('FA_TAC_LOCAL_TTL')));
             $output .= $this->displayConfirmation($this->l('Paramètres enregistrés.'));
+        }
+
+        if (Tools::isSubmit('uwtac_submit')) {
+            $result = $this->postProcess();
+            foreach ($result['errors'] as $error) {
+                $output .= $this->displayError($error);
+            }
+            foreach ($result['infos'] as $info) {
+                $output .= $this->displayConfirmation($info);
+            }
+            $output .= $this->displayConfirmation($this->l('Paramètres enregistrés.'));
+        }
+
+        // Calculée après les traitements ci-dessus : un re-téléchargement réussi efface l'erreur
+        $lastError = (string) Configuration::get('FA_TAC_LOCAL_ERROR');
+        if ('' !== $lastError) {
+            $this->context->smarty->assign('fa_tac_last_error', $lastError);
+            $output .= $this->context->smarty->fetch($this->local_path . 'views/templates/admin/loader-error.tpl');
         }
 
         $output .= $this->renderBasculeMenu();
 
         $this->context->smarty->assign('module_dir', $this->_path);
         $output .= $this->context->smarty->fetch($this->local_path . 'views/templates/admin/configure.tpl');
-        $output .= $this->renderCacheStatus();
+        // Ordre de configuration : tag d'installation, paramètres, puis cache local
         $output .= $this->renderForm();
+        $output .= $this->renderCacheStatus();
 
         return $output;
     }
@@ -148,6 +168,8 @@ class Freshapptarteaucitron extends Module
     {
         $helper = new HelperForm();
         $helper->show_toolbar = false;
+        // classe CSS de la balise <form> : pleine largeur, voir views/templates/admin/cache-status.tpl
+        $helper->name_controller = 'fa-tac-form';
         $helper->module = $this;
         $helper->default_form_language = $this->context->language->id;
         $helper->submit_action = 'uwtac_submit';
@@ -158,69 +180,66 @@ class Freshapptarteaucitron extends Module
             'fields_value' => $this->getConfigFormValues(),
             'languages' => $this->context->controller->getLanguages(),
             'id_language' => $this->context->language->id,
+            // Aide du champ « Ajouter des services » : views/templates/admin/_configure/helpers/form/form.tpl
+            'fa_tac_services_url' => 'fr' === $this->context->language->iso_code
+                ? 'https://tarteaucitron.io/installation-gratuite-open-source/#search-service'
+                : 'https://tarteaucitron.io/en/free-installation-open-source/#search-service',
         ];
 
-        return $helper->generateForm([$this->getConfigForm()]);
+        return $helper->generateForm($this->getConfigForm());
     }
 
+    /**
+     * Deux panneaux dans un même formulaire : le tag d'installation, puis les paramètres.
+     * Icônes Material Icons, grille 3/9 et aides : _configure/helpers/form/form.tpl.
+     */
     protected function getConfigForm(): array
     {
+        $submit = ['title' => $this->l('Enregistrer'), 'name' => 'uwtac_submit'];
+
         return [
-            'form' => [
-                'legend' => ['title' => $this->l('Paramètres'), 'icon' => 'icon-cogs'],
-                'tabs' => [
-                    'general' => $this->l('Général'),
-                    'cache' => $this->l('Cache local'),
-                ],
-                'input' => [
-                    [
-                        'type' => 'text',
-                        'name' => 'FA_TAC_UUID',
-                        'label' => $this->trans('API ID', [], 'Modules.Freshapptarteaucitron.Admin'),
-                        'tab' => 'general',
-                    ],
-                    [
-                        'type' => 'text',
-                        'name' => 'FA_TAC_DOMAIN',
-                        'label' => $this->l('Domaine(s)'),
-                        'hint' => $this->l('Laisser vide pour utiliser le domaine courant automatiquement. Format multi-domaines : www.site.fr__https://recette.site.fr__https://staging.site.fr'),
-                        'tab' => 'general',
-                    ],
-                    [
-                        'type' => 'textarea',
-                        'size' => 3,
-                        'name' => 'FA_TAC_JSCODE',
-                        'label' => $this->trans('Add services (JS Code)', [], 'Modules.Freshapptarteaucitron.Admin'),
-                        'hint' => $this->trans(
-                            'If you use free installation, read "Step 3: Add services" on https://tarteaucitron.io/en/free-installation-open-source/',
-                            [],
-                            'Modules.Freshapptarteaucitron.Admin',
-                        ),
-                        'tab' => 'general',
-                    ],
-                    [
-                        'type' => 'switch',
-                        'name' => 'FA_TAC_LOCAL_ENABLED',
-                        'label' => $this->l('Activer le cache local de load.js'),
-                        'hint' => $this->l('Télécharge load.js en local et le sert avec les assets du site (minifié). Fallback CDN automatique si le téléchargement échoue.'),
-                        'is_bool' => true,
-                        'values' => [
-                            ['id' => 'local_on',  'value' => 1, 'label' => $this->l('Activé')],
-                            ['id' => 'local_off', 'value' => 0, 'label' => $this->l('Désactivé')],
+            [
+                'form' => [
+                    'legend' => ['title' => $this->l('Tag d\'installation tarteaucitron.io'), 'icon' => 'code'],
+                    'input' => [
+                        [
+                            // Non enregistré : l'UUID et le domaine en sont extraits (voir postProcess)
+                            'type' => 'textarea',
+                            'rows' => 3,
+                            'name' => 'FA_TAC_TAG',
+                            'label' => $this->l('Tag d\'installation'),
                         ],
-                        'tab' => 'cache',
                     ],
-                    [
-                        'type' => 'text',
-                        'name' => 'FA_TAC_LOCAL_TTL',
-                        'label' => $this->l('Durée du cache'),
-                        'hint' => $this->l('Nombre de jours avant re-téléchargement automatique depuis le CDN. Minimum 1.'),
-                        'suffix' => $this->l('jours'),
-                        'class' => 'fixed-width-sm',
-                        'tab' => 'cache',
-                    ],
+                    'submit' => $submit,
                 ],
-                'submit' => ['title' => $this->l('Enregistrer')],
+            ],
+            [
+                'form' => [
+                    'legend' => ['title' => $this->l('Paramètres'), 'icon' => 'settings'],
+                    'input' => [
+                        [
+                            'type' => 'text',
+                            'name' => 'FA_TAC_UUID',
+                            'label' => $this->trans('API ID', [], 'Modules.Freshapptarteaucitron.Admin'),
+                            'col' => 9,
+                        ],
+                        [
+                            'type' => 'text',
+                            'name' => 'FA_TAC_DOMAIN',
+                            'label' => $this->l('Domaine(s)'),
+                            'desc' => $this->l('Laisser vide pour utiliser le domaine courant automatiquement. Format multi-domaines : www.site.fr__https://recette.site.fr__https://staging.site.fr'),
+                            'col' => 9,
+                        ],
+                        [
+                            'type' => 'textarea',
+                            'rows' => 4,
+                            'name' => 'FA_TAC_JSCODE',
+                            'label' => $this->trans('Add services (JS Code)', [], 'Modules.Freshapptarteaucitron.Admin'),
+                            'col' => 9,
+                        ],
+                    ],
+                    'submit' => $submit,
+                ],
             ],
         ];
     }
@@ -228,35 +247,91 @@ class Freshapptarteaucitron extends Module
     protected function getConfigFormValues(): array
     {
         return [
+            'FA_TAC_TAG' => '',
             'FA_TAC_UUID' => Configuration::get('FA_TAC_UUID', true),
             'FA_TAC_DOMAIN' => Configuration::get('FA_TAC_DOMAIN', true),
             'FA_TAC_JSCODE' => Configuration::get('FA_TAC_JSCODE', true),
-            'FA_TAC_LOCAL_ENABLED' => (int) Configuration::get('FA_TAC_LOCAL_ENABLED'),
-            'FA_TAC_LOCAL_TTL' => (int) Configuration::get('FA_TAC_LOCAL_TTL') ?: 7,
         ];
     }
 
-    protected function postProcess(): void
+    /**
+     * @return array{errors: string[], infos: string[]}
+     */
+    protected function postProcess(): array
     {
+        $result = ['errors' => [], 'infos' => []];
         $previousUuid = (string) Configuration::get('FA_TAC_UUID');
 
         $jscode = trim((string) Tools::getValue('FA_TAC_JSCODE'));
+        $uuid = trim((string) Tools::getValue('FA_TAC_UUID'));
+        $domain = trim((string) Tools::getValue('FA_TAC_DOMAIN'));
 
-        Configuration::updateValue('FA_TAC_UUID', trim((string) Tools::getValue('FA_TAC_UUID')));
-        Configuration::updateValue('FA_TAC_DOMAIN', trim((string) Tools::getValue('FA_TAC_DOMAIN')));
+        // Le tag complet peut être collé dans son champ dédié, ou par erreur dans le champ API ID
+        $tag = trim((string) Tools::getValue('FA_TAC_TAG'));
+        $tagInUuidField = '' === $tag && false !== stripos($uuid, 'uuid=');
+        if ($tagInUuidField) {
+            $tag = $uuid;
+        }
+
+        if ('' !== $tag) {
+            $parsed = $this->parseInstallTag($tag);
+            if (null === $parsed) {
+                $result['errors'][] = $this->l('Tag d\'installation non reconnu : collez le bloc complet fourni par tarteaucitron.io, qui contient load.js ainsi que les paramètres domain= et uuid=.');
+                if ($tagInUuidField) {
+                    $uuid = $previousUuid;
+                }
+            } else {
+                $uuid = $parsed['uuid'];
+                $result['infos'][] = sprintf($this->l('Identifiant (UUID) extrait du tag d\'installation : %s'), $uuid);
+
+                $shopDomain = strtolower((string) Tools::getShopDomainSsl());
+                $tagDomain = strtolower($parsed['domain']);
+                if ('' === $domain && '' !== $tagDomain && $tagDomain !== $shopDomain) {
+                    // Le tag vise un autre domaine que celui de la boutique : on le reprend,
+                    // sinon le CDN répondrait « Invalid tarteaucitron.io tag installation ».
+                    $domain = $parsed['domain'];
+                    $result['infos'][] = sprintf($this->l('Domaine repris du tag d\'installation : %s'), $domain);
+                }
+            }
+        }
+
+        Configuration::updateValue('FA_TAC_UUID', $uuid);
+        Configuration::updateValue('FA_TAC_DOMAIN', $domain);
         Configuration::updateValue('FA_TAC_JSCODE', $jscode);
-        Configuration::updateValue('FA_TAC_LOCAL_ENABLED', (int) Tools::getValue('FA_TAC_LOCAL_ENABLED'));
-        Configuration::updateValue('FA_TAC_LOCAL_TTL', max(1, (int) Tools::getValue('FA_TAC_LOCAL_TTL')));
         $this->writeCustomServicesJs($jscode);
 
         // UUID changed → invalidate cache to force re-download
         if ((string) Configuration::get('FA_TAC_UUID') !== $previousUuid) {
             Configuration::updateValue('FA_TAC_LOCAL_LAST_DL', 0);
         }
+
+        return $result;
     }
 
     /**
-     * Panel affiché en BO avec le statut du cache et le bouton force-reload.
+     * Extrait l'UUID et le domaine du tag d'installation fourni par tarteaucitron.io, dont le
+     * script pointe vers https://cdntag.tarteaucitron.io/load.js?domain=…&uuid=….
+     *
+     * @return array{uuid: string, domain: string}|null null si le tag n'est pas reconnu
+     */
+    private function parseInstallTag(string $tag): ?array
+    {
+        $tag = html_entity_decode($tag, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        if (!preg_match('#load\.js\?([^"\'\s<>]+)#i', $tag, $match)) {
+            return null;
+        }
+        parse_str($match[1], $query);
+
+        $uuid = trim((string) ($query['uuid'] ?? ''));
+        if (!preg_match('/^[a-f0-9]{16,64}$/i', $uuid)) {
+            return null;
+        }
+
+        return ['uuid' => $uuid, 'domain' => trim((string) ($query['domain'] ?? ''))];
+    }
+
+    /**
+     * Panneau « Cache local de load.js » : statut, réglages (activation, durée) et re-téléchargement.
      */
     private function renderCacheStatus(): string
     {
@@ -271,61 +346,34 @@ class Freshapptarteaucitron extends Module
         $lastError = (string) Configuration::get('FA_TAC_LOCAL_ERROR');
 
         if ('' !== $lastError) {
-            $badge = '<span class="badge badge-danger">Loader non chargé</span>';
-            $info = '<p class="text-danger"><strong>Le gestionnaire de consentement n\'est pas actif.</strong><br>'
-                . htmlspecialchars($lastError, ENT_QUOTES) . '</p>'
-                . '<p>Le site est repassé sur le CDN en attendant. Corrigez le point ci-dessus '
-                . 'puis relancez le téléchargement.</p>';
+            $state = 'error';
         } elseif (!$enabled) {
-            $badge = '<span class="badge badge-default">Mode CDN</span>';
-            $info = '<p class="text-muted">load.js est chargé depuis le CDN tarteaucitron.io à chaque visite.</p>';
+            $state = 'cdn';
         } elseif ($fileExists && !$this->isLocalJsUsable()) {
-            $badge = '<span class="badge badge-danger">Cache invalide</span>';
-            $info = '<p class="text-danger">Le fichier en cache est trop petit pour être le loader '
-                . '(réponse d\'erreur du CDN mise en cache). Le site est repassé sur le CDN ; '
-                . 'relancez le téléchargement pour connaître la cause exacte.</p>';
+            $state = 'invalid';
         } elseif (!$fileExists) {
-            $badge = '<span class="badge badge-warning">Non téléchargé</span>';
-            $info = '<p>Le fichier cache n\'existe pas encore. Il sera téléchargé automatiquement lors de la prochaine visite du site front.</p>';
+            $state = 'missing';
         } elseif ($uuidMismatch) {
-            $badge = '<span class="badge badge-warning">UUID modifié</span>';
-            $info = '<p class="text-warning">L\'UUID a changé depuis le dernier téléchargement. Le fichier sera re-téléchargé automatiquement à la prochaine visite.</p>';
+            $state = 'uuid';
         } elseif (!$current) {
-            $badge = '<span class="badge badge-warning">Cache expiré</span>';
-            $info = '<p>Le cache a expiré. Il sera re-téléchargé automatiquement à la prochaine visite.</p>';
+            $state = 'expired';
         } else {
-            $expiry = date('d/m/Y à H:i', $lastDl + $ttlDays * 86400);
-            $badge = '<span class="badge badge-success">Cache actif</span>';
-            $info = '<p class="text-success">load.js est servi en local et intégré aux assets du site. Prochain re-téléchargement le <strong>' . $expiry . '</strong>.</p>';
+            $state = 'active';
         }
 
-        if ($lastDl > 0) {
-            $info .= '<p>Dernier téléchargement&nbsp;: <strong>' . date('d/m/Y à H:i:s', $lastDl) . '</strong></p>';
-        }
-        if ($fileExists) {
-            $kb = round(filesize($this->getLocalJsPath()) / 1024, 1);
-            $info .= '<p>Taille du fichier cache&nbsp;: <strong>' . $kb . ' ko</strong></p>';
-        }
+        $this->context->smarty->assign([
+            'fa_tac_state' => $state,
+            'fa_tac_enabled' => $enabled,
+            'fa_tac_ttl' => (int) Configuration::get('FA_TAC_LOCAL_TTL') ?: 7,
+            'fa_tac_last_error' => $lastError,
+            'fa_tac_expiry' => date('d/m/Y à H:i', $lastDl + $ttlDays * 86400),
+            'fa_tac_last_download' => $lastDl > 0 ? date('d/m/Y à H:i:s', $lastDl) : '',
+            'fa_tac_file_kb' => $fileExists ? round(filesize($this->getLocalJsPath()) / 1024, 1) : null,
+            'fa_tac_action_url' => $this->context->link->getAdminLink('AdminModules', true)
+                . '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name,
+        ]);
 
-        $actionUrl = htmlspecialchars(
-            $this->context->link->getAdminLink('AdminModules', true)
-            . '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name,
-            ENT_QUOTES,
-        );
-
-        $forceBtn = '';
-        if ($enabled) {
-            $forceBtn = '<form method="post" action="' . $actionUrl . '" style="margin-top:12px">
-                <button type="submit" name="uwtac_force_reload" value="1" class="btn btn-default">
-                    <i class="icon-refresh"></i>&nbsp;Forcer le re-téléchargement maintenant
-                </button>
-            </form>';
-        }
-
-        return '<div class="panel">
-            <div class="panel-heading"><i class="icon-cloud-download"></i> Cache local de load.js &nbsp;' . $badge . '</div>
-            <div class="panel-body">' . $info . $forceBtn . '</div>
-        </div>';
+        return $this->context->smarty->fetch($this->local_path . 'views/templates/admin/cache-status.tpl');
     }
 
     // -------------------------------------------------------------------------
@@ -369,7 +417,7 @@ class Freshapptarteaucitron extends Module
             return false;
         }
 
-        return false !== file_put_contents($path, html_entity_decode($jscode));
+        return false !== file_put_contents($path, html_entity_decode($jscode, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8'));
     }
 
     private function isLocalJsCurrent(): bool

@@ -18,9 +18,29 @@
         <source>GDPR friendly cookie manager</source>
         <target>Gestionnaire de consentement cookies conforme au RGPD</target>
       </trans-unit>
-      <trans-unit id="bf82d82b3ed9a9df93420c2608129189">
-        <source>If you use free installation, read "Step 3: Add services" on https://tarteaucitron.io/en/free-installation-open-source/</source>
-        <target>Si vous utilisez l’installation gratuite, lisez « Step 3: Add services » sur https://tarteaucitron.io/en/free-installation-open-source/</target>
+      <trans-unit id="fb0108aa579189ca80a08498d83331bd">
+        <source>Only needed if you are not in automatic mode. Find the code of each service here:</source>
+        <target>À renseigner uniquement si vous n’êtes pas en mode automatique. Retrouvez le code de chaque service ici :</target>
+      </trans-unit>
+      <trans-unit id="b993d7e89a5a6a735d89af5eea39be68">
+        <source>Example, for YouTube add:</source>
+        <target>Exemple, pour YouTube ajoutez :</target>
+      </trans-unit>
+      <trans-unit id="0076ecb27809975a9a20cc2fb1021938">
+        <source>Paste the installation tag given in your tarteaucitron.io account: the identifier (UUID) and the domain are extracted automatically when you save.</source>
+        <target>Collez le tag d’installation fourni dans votre compte tarteaucitron.io : l’identifiant (UUID) et le domaine en sont extraits automatiquement à l’enregistrement.</target>
+      </trans-unit>
+      <trans-unit id="4d000309e71bb10dba01e0861c4b3c96">
+        <source>The tag looks like this:</source>
+        <target>Le tag ressemble à ceci :</target>
+      </trans-unit>
+      <trans-unit id="68e9264028d4899dfffd2e11a0886bea">
+        <source>Value of the uuid= parameter of the installation tag (the string of letters and digits after uuid=). No need to type it if you paste the tag in the panel above.</source>
+        <target>Valeur du paramètre uuid= du tag d’installation (la suite de lettres et de chiffres après uuid=). Inutile de la saisir si vous collez le tag dans le panneau ci-dessus.</target>
+      </trans-unit>
+      <trans-unit id="f0f3caa1a70ab8f1658b0cd64f967764">
+        <source>Paste a new installation tag</source>
+        <target>Coller un nouveau tag d’installation</target>
       </trans-unit>
     </body>
   </file>

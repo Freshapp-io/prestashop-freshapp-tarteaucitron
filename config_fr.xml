@@ -2,7 +2,7 @@
 <module>
     <name>freshapptarteaucitron</name>
     <displayName><![CDATA[FreshApp Tarteaucitron]]></displayName>
-    <version><![CDATA[1.4.0]]></version>
+    <version><![CDATA[1.5.0]]></version>
     <description><![CDATA[Gestionnaire de consentement cookies conforme au RGPD]]></description>
     <author><![CDATA[FreshApp.io]]></author>
     <tab><![CDATA[front_office_features]]></tab>
