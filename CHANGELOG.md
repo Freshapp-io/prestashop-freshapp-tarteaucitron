@@ -6,7 +6,7 @@ formulée côté marchand : le bloc d'une version se colle tel quel dans le cham
 
 ## 1.5.0 — 2026-09-17
 
-- Compatibilité étendue : PrestaShop 1.7, 8 et 9.
+- Compatibilité étendue : PrestaShop 1.7.8, 8 et 9.
 
 ## 1.4.0 — 2026-07-21
 
