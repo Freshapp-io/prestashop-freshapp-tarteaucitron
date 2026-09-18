@@ -25,10 +25,10 @@ class Freshapptarteaucitron extends Module
     public $tabs = [
         [
             'class_name' => 'AdminFreshapptarteaucitron',
-            'name' => 'Tarteaucitron',
-            'parent_class_name' => 'AdminParentPreferences',
+            'name' => 'FS Tarteaucitron',
+            'parent_class_name' => 'AdminParentModulesSf',
             'visible' => true,
-            'wording' => 'Tarteaucitron',
+            'wording' => 'FS Tarteaucitron',
             'wording_domain' => 'Modules.Freshapptarteaucitron.Admin',
         ],
     ];
@@ -37,7 +37,7 @@ class Freshapptarteaucitron extends Module
     {
         $this->name = 'freshapptarteaucitron';
         $this->tab = 'front_office_features';
-        $this->version = '1.5.1';
+        $this->version = '1.5.2';
         $this->author = 'FreshApp.io';
         $this->need_instance = 0;
         $this->bootstrap = true;

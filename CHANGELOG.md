@@ -4,6 +4,10 @@ Une section par version, la plus récente en haut. Chaque puce est une ligne aut
 formulée côté marchand : le bloc d'une version se colle tel quel dans le champ
 « changelog » de freshappprestadownload (une ligne par changement, sans le tiret).
 
+## 1.5.2 — 2026-09-18
+
+- Le module se trouve désormais dans le menu Modules du back-office, sous le nom « FS Tarteaucitron ».
+
 ## 1.5.1 — 2026-09-18
 
 - Améliorations techniques pour la conformité PrestaShop Addons.
