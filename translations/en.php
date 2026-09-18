@@ -37,3 +37,4 @@ $_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_251f162679fa1
 $_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_c0d99452df5066785ef125441762f964'] = 'Show in the back-office menu';
 $_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_24ace383b70d09954259c15cfeb9b2fd'] = 'Yes';
 $_MODULE['<{freshapptarteaucitron}prestashop>freshapptarteaucitron_6679e65c932b2c5ad98080ee21a4f0d4'] = 'No';
+$_MODULE['<{freshapptarteaucitron}prestashop>bascule-menu_ca11c50706338a5b6a1173332aa0561c'] = 'Locked in demo mode';

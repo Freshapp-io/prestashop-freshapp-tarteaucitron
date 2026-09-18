@@ -33,11 +33,17 @@ class Freshapptarteaucitron extends Module
         ],
     ];
 
+    /** Boutique de démonstration : constante _FA_DEMO_MODE_ définie par l'instance. */
+    public static function isDemoMode(): bool
+    {
+        return defined('_FA_DEMO_MODE_') && (bool) constant('_FA_DEMO_MODE_');
+    }
+
     public function __construct()
     {
         $this->name = 'freshapptarteaucitron';
         $this->tab = 'front_office_features';
-        $this->version = '1.5.2';
+        $this->version = '1.5.3';
         $this->author = 'FreshApp.io';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -89,7 +95,7 @@ class Freshapptarteaucitron extends Module
     {
         $output = '';
 
-        if (Tools::isSubmit('submitTacBoMenu')) {
+        if (Tools::isSubmit('submitTacBoMenu') && !Freshapptarteaucitron::isDemoMode()) {
             $idTab = (int) Db::getInstance()->getValue('SELECT `id_tab` FROM `' . _DB_PREFIX_ . 'tab` WHERE `class_name` = "AdminFreshapptarteaucitron"');
             if ($idTab) {
                 $onglet = new Tab($idTab);
@@ -160,6 +166,8 @@ class Freshapptarteaucitron extends Module
             'fa_tac_oui' => $this->l('Oui'),
             'fa_tac_non' => $this->l('Non'),
         ]);
+        // Démonstration : l'interrupteur de menu est grisé (refusé aussi côté serveur).
+        $this->context->smarty->assign('fa_menu_demo', Freshapptarteaucitron::isDemoMode());
 
         return $this->display(__FILE__, 'views/templates/admin/bascule-menu.tpl');
     }
