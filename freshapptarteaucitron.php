@@ -37,7 +37,7 @@ class Freshapptarteaucitron extends Module
     {
         $this->name = 'freshapptarteaucitron';
         $this->tab = 'front_office_features';
-        $this->version = '1.5.0';
+        $this->version = '1.5.1';
         $this->author = 'FreshApp.io';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -104,7 +104,7 @@ class Freshapptarteaucitron extends Module
             } else {
                 $output .= $this->displayError(
                     $this->l('Échec du téléchargement de load.js.')
-                    . ('' !== $this->downloadError ? '<br><code>' . htmlspecialchars($this->downloadError, ENT_QUOTES) . '</code>' : ''),
+                    . ('' !== $this->downloadError ? ' (' . htmlspecialchars($this->downloadError, ENT_QUOTES) . ')' : ''),
                 );
             }
         }
@@ -638,8 +638,7 @@ class Freshapptarteaucitron extends Module
 
     public function hookDisplayHeader(): string
     {
-        return '<link rel="dns-prefetch" href="//cdntag.tarteaucitron.io">' . "\n"
-            . '<link rel="preconnect" href="https://cdntag.tarteaucitron.io" crossorigin="">';
+        return $this->display(__FILE__, 'views/templates/hook/header.tpl');
     }
 
     /**

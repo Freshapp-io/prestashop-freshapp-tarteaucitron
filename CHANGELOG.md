@@ -4,6 +4,10 @@ Une section par version, la plus récente en haut. Chaque puce est une ligne aut
 formulée côté marchand : le bloc d'une version se colle tel quel dans le champ
 « changelog » de freshappprestadownload (une ligne par changement, sans le tiret).
 
+## 1.5.1 — 2026-09-18
+
+- Améliorations techniques pour la conformité PrestaShop Addons.
+
 ## 1.5.0 — 2026-09-17
 
 - Compatibilité étendue : PrestaShop 1.7.8, 8 et 9.
