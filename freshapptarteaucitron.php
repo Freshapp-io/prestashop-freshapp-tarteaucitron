@@ -43,7 +43,7 @@ class Freshapptarteaucitron extends Module
     {
         $this->name = 'freshapptarteaucitron';
         $this->tab = 'front_office_features';
-        $this->version = '1.5.3';
+        $this->version = '1.5.4';
         $this->author = 'FreshApp.io';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -105,7 +105,10 @@ class Freshapptarteaucitron extends Module
         }
 
         if (Tools::isSubmit('uwtac_force_reload')) {
-            if ($this->downloadTacLoader()) {
+            if (self::isDemoMode()) {
+                // Boutique de démonstration : pas de téléchargement déclenché par un visiteur.
+                $output .= $this->displayError($this->l('Désactivé en mode démonstration.'));
+            } elseif ($this->downloadTacLoader()) {
                 $output .= $this->displayConfirmation($this->l('load.js re-téléchargé avec succès.'));
             } else {
                 $output .= $this->displayError(
@@ -137,6 +140,10 @@ class Freshapptarteaucitron extends Module
         if ('' !== $lastError) {
             $this->context->smarty->assign('fa_tac_last_error', $lastError);
             $output .= $this->context->smarty->fetch($this->local_path . 'views/templates/admin/loader-error.tpl');
+        }
+
+        if (self::isDemoMode()) {
+            $output .= $this->display(__FILE__, 'views/templates/admin/demo-notice.tpl');
         }
 
         $output .= $this->renderBasculeMenu();
