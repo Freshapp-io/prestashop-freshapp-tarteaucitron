@@ -43,7 +43,7 @@ class Freshapptarteaucitron extends Module
     {
         $this->name = 'freshapptarteaucitron';
         $this->tab = 'front_office_features';
-        $this->version = '1.5.5';
+        $this->version = '1.5.6';
         $this->author = 'FreshApp.io';
         $this->need_instance = 0;
         $this->bootstrap = true;

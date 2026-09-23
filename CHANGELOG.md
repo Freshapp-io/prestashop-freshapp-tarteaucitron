@@ -4,6 +4,10 @@ Une section par version, la plus récente en haut. Chaque puce est une ligne aut
 formulée côté marchand : le bloc d'une version se colle tel quel dans le champ
 « changelog » de freshappprestadownload (une ligne par changement, sans le tiret).
 
+## 1.5.6 — 2026-09-23
+
+- Rangement interne (aucun changement pour le marchand) : retrait d'un gabarit inutilisé relevé par le validateur PrestaShop Addons.
+
 ## 1.5.5 — 2026-09-23
 
 - Un message d'erreur de téléchargement restait affiché après l'effacement du tag d'installation ou l'arrêt du cache local : il disparaît désormais avec ce à quoi il se rapporte.
