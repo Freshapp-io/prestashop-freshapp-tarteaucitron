@@ -4,6 +4,11 @@ Une section par version, la plus récente en haut. Chaque puce est une ligne aut
 formulée côté marchand : le bloc d'une version se colle tel quel dans le champ
 « changelog » de freshappprestadownload (une ligne par changement, sans le tiret).
 
+## 1.5.5 — 2026-09-23
+
+- Un message d'erreur de téléchargement restait affiché après l'effacement du tag d'installation ou l'arrêt du cache local : il disparaît désormais avec ce à quoi il se rapporte.
+- Aucun message d'erreur tant qu'aucun tag d'installation n'est enregistré.
+
 ## 1.5.4 — 2026-09-22
 
 - Sur une boutique de démonstration : le re-téléchargement du fichier de la bibliothèque est désactivé, et un bandeau rappelle ce qui l'est.

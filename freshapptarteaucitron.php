@@ -43,7 +43,7 @@ class Freshapptarteaucitron extends Module
     {
         $this->name = 'freshapptarteaucitron';
         $this->tab = 'front_office_features';
-        $this->version = '1.5.4';
+        $this->version = '1.5.5';
         $this->author = 'FreshApp.io';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -119,8 +119,13 @@ class Freshapptarteaucitron extends Module
         }
 
         if (Tools::isSubmit('uwtac_cache_submit')) {
-            Configuration::updateValue('FA_TAC_LOCAL_ENABLED', (int) Tools::getValue('FA_TAC_LOCAL_ENABLED'));
+            $localActif = (int) Tools::getValue('FA_TAC_LOCAL_ENABLED');
+            Configuration::updateValue('FA_TAC_LOCAL_ENABLED', $localActif);
             Configuration::updateValue('FA_TAC_LOCAL_TTL', max(1, (int) Tools::getValue('FA_TAC_LOCAL_TTL')));
+            if (!$localActif) {
+                // L'erreur ne porte que sur le cache local : sans lui, elle n'a plus d'objet.
+                Configuration::updateValue('FA_TAC_LOCAL_ERROR', '');
+            }
             $output .= $this->displayConfirmation($this->l('Paramètres enregistrés.'));
         }
 
@@ -135,8 +140,11 @@ class Freshapptarteaucitron extends Module
             $output .= $this->displayConfirmation($this->l('Paramètres enregistrés.'));
         }
 
-        // Calculée après les traitements ci-dessus : un re-téléchargement réussi efface l'erreur
-        $lastError = (string) Configuration::get('FA_TAC_LOCAL_ERROR');
+        // Calculée après les traitements ci-dessus : un re-téléchargement réussi efface l'erreur.
+        // Sans tag d'installation, il n'y a rien à signaler : le formulaire dit déjà quoi faire.
+        $lastError = '' !== (string) Configuration::get('FA_TAC_UUID')
+            ? (string) Configuration::get('FA_TAC_LOCAL_ERROR')
+            : '';
         if ('' !== $lastError) {
             $this->context->smarty->assign('fa_tac_last_error', $lastError);
             $output .= $this->context->smarty->fetch($this->local_path . 'views/templates/admin/loader-error.tpl');
@@ -318,6 +326,9 @@ class Freshapptarteaucitron extends Module
         // UUID changed → invalidate cache to force re-download
         if ((string) Configuration::get('FA_TAC_UUID') !== $previousUuid) {
             Configuration::updateValue('FA_TAC_LOCAL_LAST_DL', 0);
+            // L'erreur du téléchargement précédent portait sur l'ancien tag : elle ne dit
+            // plus rien du nouveau, et resterait affichée indéfiniment.
+            Configuration::updateValue('FA_TAC_LOCAL_ERROR', '');
         }
 
         return $result;
@@ -358,12 +369,16 @@ class Freshapptarteaucitron extends Module
         $uuidMismatch = (string) Configuration::get('FA_TAC_LOCAL_UUID') !== (string) Configuration::get('FA_TAC_UUID')
             && false !== Configuration::get('FA_TAC_LOCAL_UUID');
 
-        $lastError = (string) Configuration::get('FA_TAC_LOCAL_ERROR');
+        // L'erreur ne porte que sur le cache local d'un tag donné : sans cache local, ou sans
+        // tag, elle ne décrit plus l'état du module et ne doit pas s'afficher.
+        $lastError = $enabled && '' !== (string) Configuration::get('FA_TAC_UUID')
+            ? (string) Configuration::get('FA_TAC_LOCAL_ERROR')
+            : '';
 
-        if ('' !== $lastError) {
-            $state = 'error';
-        } elseif (!$enabled) {
+        if (!$enabled) {
             $state = 'cdn';
+        } elseif ('' !== $lastError) {
+            $state = 'error';
         } elseif ($fileExists && !$this->isLocalJsUsable()) {
             $state = 'invalid';
         } elseif (!$fileExists) {
