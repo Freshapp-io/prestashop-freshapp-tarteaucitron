@@ -31,6 +31,8 @@ class AdminFreshapptarteaucitronController extends ModuleAdminController
 
     public function renderView(): string
     {
-        return $this->module->getContent();
+        $module = $this->module;
+
+        return $module instanceof Freshapptarteaucitron ? $module->getContent() : '';
     }
 }

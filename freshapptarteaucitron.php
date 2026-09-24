@@ -43,7 +43,7 @@ class Freshapptarteaucitron extends Module
     {
         $this->name = 'freshapptarteaucitron';
         $this->tab = 'front_office_features';
-        $this->version = '1.5.6';
+        $this->version = '1.5.7';
         $this->author = 'FreshApp.io';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -191,7 +191,7 @@ class Freshapptarteaucitron extends Module
     {
         $helper = new HelperForm();
         $helper->show_toolbar = false;
-        // classe CSS de la balise <form> : pleine largeur, voir views/templates/admin/cache-status.tpl
+        // classe CSS du formulaire : pleine largeur, voir views/templates/admin/cache-status.tpl
         $helper->name_controller = 'fa-tac-form';
         $helper->module = $this;
         $helper->default_form_language = $this->context->language->id;
@@ -271,9 +271,9 @@ class Freshapptarteaucitron extends Module
     {
         return [
             'FA_TAC_TAG' => '',
-            'FA_TAC_UUID' => Configuration::get('FA_TAC_UUID', true),
-            'FA_TAC_DOMAIN' => Configuration::get('FA_TAC_DOMAIN', true),
-            'FA_TAC_JSCODE' => Configuration::get('FA_TAC_JSCODE', true),
+            'FA_TAC_UUID' => Configuration::get('FA_TAC_UUID'),
+            'FA_TAC_DOMAIN' => Configuration::get('FA_TAC_DOMAIN'),
+            'FA_TAC_JSCODE' => Configuration::get('FA_TAC_JSCODE'),
         ];
     }
 

@@ -10,14 +10,14 @@
 {block name="legend"}
   <div class="panel-heading">
     {if isset($field.icon)}<i class="material-icons" style="vertical-align:middle;font-size:18px">{$field.icon|escape:'html':'UTF-8'}</i>{/if}
-    {$field.title}
+    {$field.title|escape:'html':'UTF-8'}
   </div>
 {/block}
 
 {* Grille 3/9 sur tous les panneaux du module (PrestaShop : 4/8), alignée sur le panneau cache *}
 {block name="label"}
   {if isset($input.label)}
-    <label class="control-label col-lg-3">{$input.label}</label>
+    <label class="control-label col-lg-3">{$input.label|escape:'html':'UTF-8'}</label>
   {/if}
 {/block}
 
@@ -26,7 +26,7 @@
 {block name="input_row"}
   {if $input.name == 'FA_TAC_TAG'}
     <div class="form-group">
-      <label class="control-label col-lg-3" for="FA_TAC_TAG">{$input.label}</label>
+      <label class="control-label col-lg-3" for="FA_TAC_TAG">{$input.label|escape:'html':'UTF-8'}</label>
       <div class="col-lg-9">
         {if !empty($fields_value.FA_TAC_UUID)}
           <details class="fa-tac-tag-toggle">
