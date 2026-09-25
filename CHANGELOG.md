@@ -4,6 +4,10 @@ Une section par version, la plus récente en haut. Chaque puce est une ligne aut
 formulée côté marchand : le bloc d'une version se colle tel quel dans le champ
 « changelog » de freshappprestadownload (une ligne par changement, sans le tiret).
 
+## 1.5.8 — 2026-09-25
+
+- Passage en licence GPL-3.0-or-later : le code source de ce module gratuit est publié sur GitHub. Le fichier LICENSE et l'en-tête de chaque fichier sont mis à jour en conséquence — aucun changement de fonctionnement.
+
 ## 1.5.7 — 2026-09-24
 
 - Rangement interne (aucun changement pour le marchand) : points relevés par le validateur PrestaShop Addons, sans effet sur le fonctionnement du module.

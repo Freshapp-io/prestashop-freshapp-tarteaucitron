@@ -4,7 +4,7 @@
  *
  * @author    FreshApp.io
  * @copyright 2026 FreshApp.io
- * @license   proprietary
+ * @license   GPL-3.0-or-later
  */
 
 declare(strict_types=1);

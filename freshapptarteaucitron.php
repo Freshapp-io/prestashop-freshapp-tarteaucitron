@@ -4,7 +4,7 @@
  *
  * @author    FreshApp.io
  * @copyright 2026 FreshApp.io
- * @license   proprietary
+ * @license   GPL-3.0-or-later
  */
 
 declare(strict_types=1);
@@ -43,7 +43,7 @@ class Freshapptarteaucitron extends Module
     {
         $this->name = 'freshapptarteaucitron';
         $this->tab = 'front_office_features';
-        $this->version = '1.5.7';
+        $this->version = '1.5.8';
         $this->author = 'FreshApp.io';
         $this->need_instance = 0;
         $this->bootstrap = true;

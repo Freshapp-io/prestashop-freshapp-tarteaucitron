@@ -85,3 +85,7 @@ Les défauts d'accessibilité éventuels du bandeau relèvent d'une bibliothèqu
 tierce. Dans un rapport d'audit RGAA, ils se déclarent au titre des contenus
 issus d'applications tierces — comme le font les sites publics qui emploient cet
 outil. Ce n'est pas une exemption : c'est une attribution de responsabilité.
+
+## Licence
+
+GPL-3.0-or-later — voir le fichier [LICENSE](LICENSE).

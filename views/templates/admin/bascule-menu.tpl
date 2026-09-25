@@ -2,7 +2,7 @@
  * freshapptarteaucitron
  * @author FreshApp.io
  * @copyright 2026 FreshApp.io
- * @license Proprietary - see LICENSE file
+ * @license GPL-3.0-or-later
  *}
 <div class="panel">
   <form method="post" style="display:flex;align-items:center;justify-content:flex-end;gap:12px;margin:0">

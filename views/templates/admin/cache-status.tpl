@@ -2,7 +2,7 @@
  * FreshApp Tarteaucitron
  * @author FreshApp.io
  * @copyright 2026 FreshApp.io
- * @license Proprietary - see LICENSE file
+ * @license GPL-3.0-or-later
  *}
 {* Icônes : Material Icons, la police du back-office PrestaShop 9. Les classes icon-* de
    FontAwesome ne sont plus toutes définies (icon-cogs, icon-refresh s'affichent vides). *}

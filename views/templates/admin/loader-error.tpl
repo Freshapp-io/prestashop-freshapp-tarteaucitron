@@ -2,7 +2,7 @@
  * FreshApp Tarteaucitron
  * @author FreshApp.io
  * @copyright 2026 FreshApp.io
- * @license Proprietary - see LICENSE file
+ * @license GPL-3.0-or-later
  *}
 {* Erreur du dernier téléchargement de load.js, affichée en tête de page : le bandeau de
    consentement ne s'affiche pas tant qu'elle n'est pas corrigée. *}
