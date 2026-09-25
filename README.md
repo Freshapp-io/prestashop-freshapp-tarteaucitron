@@ -1,3 +1,18 @@
+<p align="center">
+  <a href="https://shop.freshapp.io">
+    <img src="docs/brand/freshapp-io-logo.png" alt="FreshApp.io" width="280">
+  </a>
+</p>
+
+<p align="center">
+  <a href="#francais">🇫🇷 Français</a> · <a href="#english">🇬🇧 English</a>
+</p>
+
+---
+
+<a id="francais"></a>
+## 🇫🇷 Français
+
 # FreshApp Tarteaucitron
 
 Gestionnaire de consentement cookies (RGPD) pour PrestaShop 9, basé sur
@@ -5,11 +20,11 @@ Gestionnaire de consentement cookies (RGPD) pour PrestaShop 9, basé sur
 développée par Amauri Champeaux.
 
 - **Nom technique** : `freshapptarteaucitron`
-- **Version** : 1.4.0
+- **Version** : 1.5.8
 - **Auteur** : FreshApp.io
 - **Compatibilité** : PrestaShop >= 9.0.0
 
-## Fonctionnement
+### Fonctionnement
 
 Le module injecte le loader tarteaucitron dans le `<head>` du front-office et
 permet d'ajouter des services personnalisés (code JS) depuis le back-office.
@@ -25,7 +40,7 @@ Le code JS de services saisi en back-office est écrit dans
 `views/js/custom-services.cache.js` et enregistré comme asset statique
 (même principe que `freshapphtmleverywhere`).
 
-## Configuration (clés `Configuration`)
+### Configuration (clés `Configuration`)
 
 | Clé | Rôle |
 |---|---|
@@ -38,23 +53,23 @@ Le code JS de services saisi en back-office est écrit dans
 | `FA_TAC_LOCAL_UUID` | UUID associé au cache courant (interne) |
 | `FA_TAC_LOCAL_ERROR` | Dernière erreur de téléchargement (interne) |
 
-## Hooks
+### Hooks
 
 - `displayHeader`
 - `actionFrontControllerSetMedia`
 
-## Installation
+### Installation
 
 1. Créer un compte gratuit sur https://tarteaucitron.io/
 2. Récupérer l'API ID sur https://tarteaucitron.io/dashboard/#account
 3. Le renseigner dans la configuration du module en back-office.
 
-## Fichiers générés (non versionnés)
+### Fichiers générés (non versionnés)
 
 - `views/js/tac-loader.cache.js` — loader téléchargé depuis le CDN
 - `views/js/custom-services.cache.js` — services JS saisis en back-office
 
-## Accessibilité — ce qui dépend de nous, et ce qui n'en dépend pas
+### Accessibilité — ce qui dépend de nous, et ce qui n'en dépend pas
 
 **Rien de l'interface visible ne vient de ce module.** Notre surface front se
 limite à deux balises `<link>` (dns-prefetch et preconnect) et à l'enregistrement
@@ -64,7 +79,7 @@ leurs contrôles sont produits par la bibliothèque tarteaucitron.io.
 Un audit RGAA de ce module ne trouve donc aucun manquement dans notre code — mais
 cela ne signifie pas qu'une boutique qui l'installe est conforme.
 
-### Le point à traiter côté tarteaucitron.io
+#### Le point à traiter côté tarteaucitron.io
 
 Le bandeau est inséré **en fin de DOM**. Une personne naviguant au lecteur
 d'écran doit donc parcourir toute la page avant de l'atteindre, alors que ce
@@ -79,13 +94,113 @@ compte), et les options d'initialisation y sont gérées côté compte.
 bord tarteaucitron.io. C'est le seul levier d'accessibilité réel sur ce
 composant, et il ne coûte rien.
 
-### Conséquence pour un audit
+#### Conséquence pour un audit
 
 Les défauts d'accessibilité éventuels du bandeau relèvent d'une bibliothèque
 tierce. Dans un rapport d'audit RGAA, ils se déclarent au titre des contenus
 issus d'applications tierces — comme le font les sites publics qui emploient cet
 outil. Ce n'est pas une exemption : c'est une attribution de responsabilité.
 
-## Licence
+Retrouvez nos modules sur **[shop.freshapp.io](https://shop.freshapp.io)**.
 
-GPL-3.0-or-later — voir le fichier [LICENSE](LICENSE).
+---
+
+<a id="english"></a>
+## 🇬🇧 English
+
+# FreshApp Tarteaucitron
+
+Cookie consent manager (GDPR) for PrestaShop 9, based on
+[tarteaucitron.io](https://tarteaucitron.io/) — an open source library
+developed by Amauri Champeaux.
+
+- **Technical name**: `freshapptarteaucitron`
+- **Version**: 1.5.8
+- **Author**: FreshApp.io
+- **Compatibility**: PrestaShop >= 9.0.0
+
+### How it works
+
+The module injects the tarteaucitron loader into the front-office `<head>` and
+lets you add custom services (JS code) from the back office.
+
+Two loading modes:
+
+- **CDN** (default) — the loader is called directly from tarteaucitron.io;
+- **Local** — the loader is downloaded and cached in
+  `views/js/tac-loader.cache.js`, refreshed on a configurable TTL. Useful to
+  avoid an external dependency at page render time.
+
+Service JS code entered in the back office is written to
+`views/js/custom-services.cache.js` and registered as a static asset (the same
+approach as `freshapphtmleverywhere`).
+
+### Configuration (`Configuration` keys)
+
+| Key | Purpose |
+|---|---|
+| `FA_TAC_UUID` | tarteaucitron.io account API ID |
+| `FA_TAC_DOMAIN` | Domain declared on the tarteaucitron.io side |
+| `FA_TAC_JSCODE` | Services JS code (non-automatic mode) |
+| `FA_TAC_LOCAL_ENABLED` | Enables the local loader cache |
+| `FA_TAC_LOCAL_TTL` | Local cache validity, in days |
+| `FA_TAC_LOCAL_LAST_DL` | Timestamp of the last download (internal) |
+| `FA_TAC_LOCAL_UUID` | UUID tied to the current cache (internal) |
+| `FA_TAC_LOCAL_ERROR` | Last download error (internal) |
+
+### Hooks
+
+- `displayHeader`
+- `actionFrontControllerSetMedia`
+
+### Installation
+
+1. Create a free account at https://tarteaucitron.io/
+2. Get the API ID from https://tarteaucitron.io/dashboard/#account
+3. Enter it in the module's back-office configuration.
+
+### Generated files (not version-controlled)
+
+- `views/js/tac-loader.cache.js` — loader downloaded from the CDN
+- `views/js/custom-services.cache.js` — services JS entered in the back office
+
+### Accessibility — what is on us, and what is not
+
+**None of the visible interface comes from this module.** Our front-office
+surface is limited to two `<link>` tags (dns-prefetch and preconnect) and to
+registering the loader and the services code. The banner, the settings panel
+and all their controls are produced by the tarteaucitron.io library.
+
+An accessibility audit of this module's own code therefore finds no issue — but
+that does not mean a store that installs it is compliant.
+
+#### The point to address on the tarteaucitron.io side
+
+The banner is inserted **at the end of the DOM**. Someone navigating with a
+screen reader must therefore go through the whole page before reaching it, even
+though this banner gates access to the site. This is the recurring criticism
+made of the tool.
+
+The tarteaucitron.io configuration lets you **place the banner at the top of the
+page**. That setting lives in the tarteaucitron.io dashboard, not in this
+module: we use the hosted service (`load.js` with an account identifier), and
+initialisation options are managed on the account side.
+
+**Recommendation**: position the banner at the top of the page from the
+tarteaucitron.io dashboard. It is the only real accessibility lever on this
+component, and it costs nothing.
+
+#### Consequence for an audit
+
+Any accessibility shortcomings of the banner belong to a third-party library. In
+an accessibility audit report, they are declared under third-party content —
+the same way public sites that use this tool do. This is not an exemption: it
+is an attribution of responsibility.
+
+Find our modules on **[shop.freshapp.io](https://shop.freshapp.io)**.
+
+---
+
+## Licence / License
+
+GPL-3.0-or-later — voir / see [LICENSE](LICENSE).
